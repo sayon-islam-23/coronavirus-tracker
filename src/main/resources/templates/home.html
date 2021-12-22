@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coronavirus Tracker Application</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+  <link rel="shortcut icon"
+    href="https://media.istockphoto.com/vectors/vector-illustration-of-coronavirus-2019ncov-vector-id1203835522"
+    type="image/x-icon">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <img src="https://media.istockphoto.com/vectors/vector-illustration-of-coronavirus-2019ncov-vector-id1203835522"
+        alt="" class="img-fluid mx-2" style="height: 50px; width:50px; border-radius: 150px;">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mb-2 mb-lg-0" style="margin-left: auto;">
+          <li class="nav-item" style="cursor:pointer">
+            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#corona"><i
+                class="fas fa-virus" style="font-size: 20px;margin-right: 5px; color:rgb(68, 238, 68)"></i>About
+              Covid-19</a>
+          </li>
+          <li class="nav-item" style="cursor:pointer">
+            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#symtomps"><i class="fas fa-hospital-user"
+                style="font-size: 20px;margin-right: 5px; color:rgb(68, 238, 68)"></i>Symptoms</a>
+          </li>
+          <li class="nav-item" style="cursor:pointer">
+            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#precautions"><i class="fas fa-hand-holding-medical"
+                style="font-size: 20px;margin-right: 5px; color:rgb(68, 238, 68)"></i>Precautions</a>
+          </li>
+          <li class="nav-item" style="cursor:pointer">
+            <a class="nav-link active" aria-current="page" data-bs-toggle="modal" data-bs-target="#covidvaccine"><i class="fas fa-syringe"
+                style="font-size: 20px;margin-right: 5px; color:rgb(68, 238, 68)"></i>Vaccination</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="container" style="margin-top: 6rem;">
+    <h1 class="my-3" data-aos="fade-up">Coronavirus Tracker Application</h1>
+
+    <div class="jumbotron shadow mb-5 bg-body rounded" style="border: 4px solid rgb(68, 238, 68);" data-aos="fade-up">
+      <h1 class="display-4" th:text="${totalReportedCases}"></h1>
+      <p class="lead">Total cases reported as of today</p>
+      <hr class="my-4">
+      <p>
+        <span>New cases reported since previous day:</span>
+        <span th:text="${totalNewCases}"></span>
+      </p>
+    </div>
+    <br><br>
+    <div class="jumbotron shadow mb-5 bg-body rounded" style="border: 4px solid rgb(68, 238, 68);" data-aos="fade-up">
+      <h1 class="display-4" th:text="${totalDeathCases}"></h1>
+      <p class="lead">Total death cases reported as of today</p>
+      <hr class="my-4">
+      <p>
+        <span>New death cases reported since previous day:</span>
+        <span th:text="${totalNewDeathCases}"></span>
+      </p>
+    </div>
+    <br><br>
+    <div class="d-flex justify-content-between" data-aos="fade-up">
+      <a th:href="@{/covidcases/}"> <button href="/covidcases/" type="button" class="btn btn-success">Covid
+          Cases</button></a>
+      <a th:href="@{/deathcases/}"> <button href="/deathcases/" type="button" class="btn btn-success">Death
+          Cases</button></a> 
+    </div>
+  </div>
+
+  <section class="main_heading my-5" data-aos="fade-up">
+    <div class="text-center display-4 mt-3">
+      <h1>Novel Corona Virus</h1>
+      <hr class="w-25 mx-auto">
+    </div>
+    <div class="container">
+      <div class="row py-5">
+        <div class="col-lg-6 col-md-6 col-12 col-xxl-6">
+          <figure class="shadow mb-5 bg-body rounded">
+            <img src="https://www.ecosystemmarketplace.com/wp-content/uploads/2020/04/GreenCovid.jpg" alt=""
+              class="img-fluid">
+          </figure>
+        </div>
+        <div class="col-lg-6 col-md-6 col-12 col-xxl-6 d-flex justify-content-center align-items-start flex-column">
+          <h1>About Covid-19</h1>
+          <p class="my-3">Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2 virus. Most
+            people infected with the virus will experience mild to moderate respiratory illness and recover without
+            requiring special treatment.<br> However, some will become seriously ill and require medical attention.
+            Older people and those with underlying medical conditions like cardiovascular disease, diabetes, chronic
+            respiratory disease, or cancer are more likely to develop serious illness. Anyone can get sick with COVID-19
+            and become seriously ill or die at any age. </p>
+          <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019" target="_blank"> <button
+              type="button" class="btn btn-success" data-bs-toggle="tooltip" data-bs-placement="bottom"
+              title="Explore More About Covid-19">Explore</button></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="main_heading my-5 bg-light py-5" id="vaccination" data-aos="fade-up">
+    <div class="text-center display-4">
+      <h1 data-aos="fade-up">Vaccination Available</h1>
+      <hr class="w-25 mx-auto">
+    </div>
+    <div class="container">
+      <div class="d-flex justify-content-around" style="flex-wrap: wrap">
+        <div class="card mx-3 shadow mb-5 bg-body rounded" style="width: 20rem;">
+          <img
+            src="https://images.thequint.com/thequint%2F2021-07%2F94092245-0040-4ef8-95ca-2a083b6a4925%2F11__3_.jpg?w=1200&auto=format%2Ccompress&ogImage=true"
+            class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-text">COVAXIN is included along with immune-potentiators, which are added to the vaccine to
+              increase and boost its immunogenicity.
+            </p>
+          </div>
+        </div>
+        <div class="card mx-3 shadow mb-5 bg-body rounded" style="width: 20rem;">
+          <img src="https://www.livelaw.in/h-upload/2020/12/13/1600x960_385864-covishield-covid.jpg"
+            class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-text">COVISHIELD has been administered in people with or without comorbid conditions in
+              clinical trials and the safety profile was comparable in those with or without comorbid condition</p>
+          </div>
+        </div>
+        <div class="card mx-3 shadow mb-5 bg-body rounded" style="width: 20rem;">
+          <img
+            src="https://images.moneycontrol.com/static-mcnews/2021/05/Sputnik-V-vaccine-770x433.jpg?impolicy=website&width=770&height=431"
+            class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="card-text">The Russian COVID-19 vaccine Sputnik V (Gam-COVID-Vac) is an adenoviral-based, two-part
+              vaccine against the SARS-CoV-2 coronavirus.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xxl-12 text-center my-3">
+        <a href="https://selfregistration.cowin.gov.in/"><button type="button" class="btn btn-success"
+            data-bs-toggle="tooltip" data-bs-placement="bottom" title="Book Your Vaccination">Book Your
+            Slot</button></a>
+      </div>
+    </div>
+  </section>
+  <section class="main_heading my-5 pt-3"  data-aos="fade-up">
+    <div class="container-fluid" style="background-color: rgb(119, 240, 119);">
+      <div class="row">
+        <div class="col-xxl-12 col-12 py-5 text-center">
+          <h1 class="my-3">Get Your Required Certificates</h1>
+            <p class="my-3">Download your vaccination certificate and international travel vertificate which will prove
+              that you are vaccinated and also capable of traveling outside.</p>
+
+            <a href="https://selfregistration.cowin.gov.in/" target="_blank"><button type="button" class="btn btn-dark"
+                data-bs-toggle="tooltip" data-bs-placement="bottom" title="Contact Us">Vaccination
+                Certificate</button></a>
+            <a href="https://prod-cdn.preprod.co-vin.in/assets/pdf/20211109_User+Guide_Download+Internation+Certificate.pdf"
+              target="_blank"><button type="button" class="btn btn-dark" data-bs-toggle="tooltip"
+                data-bs-placement="bottom" title="Contact Us">Travel Certificate</button></a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div class="container my-5" data-aos="fade-up">
+    <div class="text-center display-4">
+      <h1 data-aos="fade-up">FAQ</h1>
+      <hr class="w-25 mx-auto">
+    </div>
+    <button class="accordion" id="faq" style="border: 2px solid black;">Where can I register for COVID-19 vaccination
+      ?</button>
+    <div class="panel">
+      <p>You can log into the CoWIN portal using the link www.cowin.gov.in and click on the “Register / Sign In
+        yourself” tab to register for COVID-19 vaccination.</p>
+    </div>
+
+    <button class="accordion" id="faq1" style="border: 2px solid black;">After trying once do you need to wait certain
+      amount of time to try again? In other words, can you only do it once every hour or so.</button>
+    <div class="panel">
+      <p>No, if you have given wrong OTP 3 times, the system will not allow to login from the same instance. To login
+        again refresh the browser to create a new instance and login with your mobile no and new otp.</p>
+    </div>
+
+    <button class="accordion" id="faq2" style="border: 2px solid black;">Which documents should I carry with me for
+      vaccination?</button>
+    <div class="panel">
+      <p>You should carry your identity proof specified by you at the time of registration on the CoWIN portal and a
+        printout/screenshot of your appointment slip.</p>
+    </div>
+    <button class="accordion" id="faq3" style="border: 2px solid black;">I have taken the first dose of Covid Vaccination
+      through on-spot registration. When I tried to book a second dose online, it asked me to schedule an appointment
+      for the first dose. What to do?</button>
+    <div class="panel">
+      <p>Please ensure that you are using the same mobile number for second dose online appointment booking which you
+        had used at the time of first dose.</p>
+    </div>
+    <button class="accordion" id="faq4" style="border: 2px solid black;">Can I travel to all the countries with
+      International Travel Certificate?</button>
+    <div class="panel">
+      <p>Entry requirements vary across different countries. You may be able to enter some countries with this
+        certificate, while you may have to provide a range of test results in others.</p>
+    </div>
+  </div>
+  </div>
+
+  <footer class="footer mt-auto py-3 bg-dark">
+    <div class="container">
+      <span style="text-align: center; color:white;">corova-virus-tracker-2021-2022 @all right reserved</span>
+    </div>
+  </footer>
+  <!-- Optional JavaScript; choose one of the two! -->
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous">
+    </script>
+  <!-- Option 2: Separate Popper and Bootstrap JS -->
+  <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.min.js" integrity="sha384-lpyLfhYuitXl2zRZ5Bn2fqnhNAKOAaM/0Kr9laMspuaMiZfGmfwRNFh8HlMy49eQ" crossorigin="anonymous"></script>
+    -->
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+    integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      offset: 200,
+      duration: 700,
+    });
+  </script>
+  <style>
+    /* Style the buttons that are used to open and close the accordion panel */
+    .accordion {
+      background-color: #eee;
+      color: #444;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      text-align: left;
+      border: none;
+      outline: none;
+      transition: 0.4s;
+    }
+
+    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    #faq,#faq1,#faq2,#faq3,#faq4 {
+      background-color: #ccc;
+    }
+
+    /* Style the accordion panel. Note: hidden by default */
+    .panel {
+      padding: 0 18px;
+      background-color: white;
+      display: none;
+      overflow: hidden;
+    }
+  </style>
+
+  <script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function () {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active");
+
+        /* Toggle between hiding and showing the active panel */
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+          panel.style.display = "none";
+        } else {
+          panel.style.display = "block";
+        }
+      });
+    }
+  </script>
+
+  <div class="modal fade" id="covidvaccine" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color:rgb(68, 238, 68);">
+          <h5 class="modal-title">Covid Vaccination</h5>
+        </div>
+        <div class="modal-body">
+          <figure>
+            <img
+              src="https://images.thequint.com/thequint%2F2021-07%2F94092245-0040-4ef8-95ca-2a083b6a4925%2F11__3_.jpg?w=1200&auto=format%2Ccompress&ogImage=true"
+              alt="" class="img-fluid shadow-lg p-1" style="border: 3px solid rgb(68, 238, 68);">
+            <figcaption>
+              <h4 class="my-3 text-capitalize" style="text-align: center;">COVAXIN</h4>
+            </figcaption>
+          </figure>
+          <p>COVAXIN, India's indigenous COVID-19 vaccine by Bharat Biotech is developed in collaboration with the Indian Council of Medical Research (ICMR) - National Institute of Virology (NIV).<br><br>
+
+            The indigenous, inactivated vaccine is developed and manufactured in Bharat Biotech's BSL-3 (Bio-Safety Level 3) high containment facility.<br><br>
+            
+            The vaccine is developed using Whole-Virion Inactivated Vero Cell derived platform technology. Inactivated vaccines do not replicate and are therefore unlikely to revert and cause pathological effects. They contain dead virus, incapable of infecting people but still able to instruct the immune system to mount a defensive reaction against an infection.</p>
+          <figure>
+            <img src="https://www.livelaw.in/h-upload/2020/12/13/1600x960_385864-covishield-covid.jpg" alt=""
+              class="img-fluid shadow-lg p-1" style="border: 3px solid rgb(68, 238, 68);">
+            <figcaption>
+              <h4 class="my-3 text-capitalize" style="text-align: center;">COVISHIELD</h4>
+            </figcaption>
+          </figure>
+          <p>The CoviShield COVID-19 (AZD1222) (C19VAZ) vaccine, formerly known as ChAdOx1 nCoV-19, is made from a virus (ChAdOx1), a weakened version of a common cold virus (adenovirus). In addition, genetic material has been added to the ChAdOx1 construct, which is used to make proteins from the SARS-CoV-2 coronavirus called Spike glycoprotein (S). <br><br>
+
+            Drug regulators in India granted emergency approval for the coronavirus vaccine co-developed by AstraZeneca Plc and the University of Oxford on January 1, 2021. This vaccine is the same formulation as the Vaxzevria (AZD1222) vaccine.</p>
+          <figure>
+            <img
+              src="https://images.moneycontrol.com/static-mcnews/2021/05/Sputnik-V-vaccine-770x433.jpg?impolicy=website&width=770&height=431"
+              alt="" class="img-fluid shadow-lg p-1" style="border: 3px solid rgb(68, 238, 68);">
+            <figcaption>
+              <h4 class="my-3 text-capitalize" style="text-align: center;">SPUTNIK</h4>
+            </figcaption>
+          </figure>
+          <p>The Russian COVID-19 vaccine Sputnik V (Gam-COVID-Vac) is an adenoviral-based, two-part vaccine against the SARS-CoV-2 coronavirus. Initially produced in Russia, Sputnik V uses a weakened virus to deliver small parts of a pathogen and stimulate an immune response.<br><br>
+
+            The Sputnik V (Gam-COVID-Vac) vaccine reduces the time taken for the actual development of immunity to SARS-CoV-2, the betacoronavirus behind the COVID-19 pandemic.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+      <a href="https://selfregistration.cowin.gov.in/"><button type="button" class="btn btn-success">Book Your Slot</button></a> 
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="symtomps" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:rgb(68, 238, 68);">
+        <h5 class="modal-title" >Covid Symptoms</h5>
+      </div>
+      <div class="modal-body">
+        <figure>
+          <img
+            src="https://cdn.vox-cdn.com/thumbor/b_XHmLAgjMLRq4shAqoZVZSgiMw=/1400x1050/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/20537762/Covid_Symptoms.png"
+            alt="" class="img-fluid shadow-lg p-1" style="border: 3px solid rgb(68, 238, 68);">
+        </figure>
+        <h6>COVID-19 affects different people in different ways. Most infected people will develop mild to moderate illness and recover without hospitalization.</h6>
+        <br>
+        <br>
+        <h6>Most common symptoms:</h6>
+        <p>1. fever</p>
+        <p>2. cough</p>
+        <p>3. tiredness</p>
+        <p>4. loss of taste or smell</p>
+        <br>
+        <br>
+        <h6>Less common symptoms:</h6>
+        <p>1. sore throat</p>
+        <p>2. headache</p>
+        <p>3. aches and pains</p>
+        <p>4. diarrhoea</p>
+        <p>5. a rash on skin, or discolouration of fingers or toes</p>
+        <p>6. red or irritated eyes</p>
+        <br>
+        <br>
+        <h6>Serious symptoms:</h6>
+        <p>1. difficulty breathing or shortness of breath</p>
+        <p>2. loss of speech or mobility, or confusion</p>
+        <p>3. chest pain</p>
+        <br>
+        <br>
+        <h6>Seek immediate medical attention if you have serious symptoms. Always call before visiting your doctor or health facility.<br><br>
+          People with mild symptoms who are otherwise healthy should manage their symptoms at home.
+          On average it takes 5–6 days from when someone is infected with the virus for symptoms to show, however it can take up to 14 days.</h6>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+    <a href="https://www.who.int/health-topics/coronavirus#tab=tab_3"><button type="button" class="btn btn-success">Know More</button></a> 
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="precautions" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header" style="background-color:rgb(68, 238, 68);">
+      <h5 class="modal-title" >Covid Precautions</h5>
+    </div>
+    <div class="modal-body">
+      <figure>
+        <img
+          src="https://disabilityconference.co/wp-content/uploads/2020/12/COVID-19-Safety-Precautions.jpg"
+          alt="" class="img-fluid shadow-lg p-1" style="border: 3px solid rgb(68, 238, 68);">
+      </figure>
+      <h6>Protect yourself and others around you by knowing the facts and taking appropriate precautions. Follow advice provided by your local health authority.</h6>
+      <br>
+      <br>
+      <h5>To prevent the spread of COVID-19:</h5>
+      <p>1. Maintain a safe distance from others (at least 1 metre), even if they don’t appear to be sick.</p>
+      <p>2. Wear a mask in public, especially indoors or when physical distancing is not possible.</p>
+      <p>3. Choose open, well-ventilated spaces over closed ones. Open a window if indoors.</p>
+      <p>4. Clean your hands often. Use soap and water, or an alcohol-based hand rub.</p>
+      <p>5. Get vaccinated when it’s your turn. Follow local guidance about vaccination.</p>
+      <p>6. Cover your nose and mouth with your bent elbow or a tissue when you cough or sneeze.</p>
+      <p>7. Stay home if you feel unwell.</p>
+      <br>
+      <br>
+      <h6>If you have a fever, cough and difficulty breathing, seek medical attention. Call in advance so your healthcare provider can direct you to the right health facility. This protects you, and prevents the spread of viruses and other infections.<br><br>
+        Properly fitted masks can help prevent the spread of the virus from the person wearing the mask to others. Masks alone do not protect against COVID-19, and should be combined with physical distancing and hand hygiene. Follow the advice provided by your local health authority.</h6>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+  <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019/advice-for-public"><button type="button" class="btn btn-success">Know More</button></a> 
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="modal fade" id="corona" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header" style="background-color:rgb(68, 238, 68);">
+      <h5 class="modal-title" id="staticBackdropLabel">About Coronavirus</h5>
+    </div>
+    <div class="modal-body">
+      <figure>
+        <img
+          src="https://www.who.int/images/default-source/searo---images/health-topics/corona-virus19/coronavirus-blue.jpg?sfvrsn=1bdbbe71_12"
+          alt="" class="img-fluid shadow-lg p-1" style="border: 3px solid rgb(68, 238, 68);">
+          <figcaption>
+            <h4 class="my-3 text-capitalize" style="text-align: center;">Coron Virus</h4>
+          </figcaption>
+      </figure>
+      <p>Coronavirus disease (COVID-19) is an infectious disease caused by the SARS-CoV-2 virus. Most
+        people infected with the virus will experience mild to moderate respiratory illness and recover without
+        requiring special treatment.<br><br> However, some will become seriously ill and require medical attention.
+        Older people and those with underlying medical conditions like cardiovascular disease, diabetes, chronic
+        respiratory disease, or cancer are more likely to develop serious illness. Anyone can get sick with COVID-19
+        and become seriously ill or die at any age. </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+  <a href="https://en.wikipedia.org/wiki/Coronavirus"><button type="button" class="btn btn-success">Know More</button></a> 
+    </div>
+  </div>
+</div>
+</div>
+
+</body>
+
+</html>

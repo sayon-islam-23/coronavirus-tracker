@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Coronavirus Tracker Application</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="shortcut icon" href="https://media.istockphoto.com/vectors/vector-illustration-of-coronavirus-2019ncov-vector-id1203835522" type="image/x-icon">
+</head>
+
+<body>
+    <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+            <img src="https://media.istockphoto.com/vectors/vector-illustration-of-coronavirus-2019ncov-vector-id1203835522" alt="" class="img-fluid mx-2" style="height: 50px; width:50px; border-radius:150px;">
+            <a th:href="@{/}"> <button href="/covidcases/" type="button" class="btn btn-success">Back</button></a>
+        </div>
+      </nav>
+<div class="container">
+    <iframe src="https://ourworldindata.org/explorers/coronavirus-data-explorer?tab=map&zoomToSelection=true&facet=none&pickerSort=desc&pickerMetric=new_deaths_per_million&Metric=Confirmed+deaths&Interval=7-day+rolling+average&Relative+to+Population=true&Align+outbreaks=false&country=IND~USA~GBR~CAN~DEU~FRA&hideControls=true" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+    <h1>Coronavirus Tracker Application</h1>
+    <p>This application lists the current number of  death cases reported across the globe</p>
+    <table class="table">
+        <tr>
+            <th>State</th>
+            <th>Country</th>
+            <th>Total death cases reported</th>
+            <th>Changes since last day</th>
+        </tr>
+        <tr th:each="locationStat1 : ${locationStats1}">
+            <td th:text="${locationStat1.state}"></td>
+            <td th:text="${locationStat1.country}"></td>
+            <td th:text="${locationStat1.latestDeathCases}">0</td>
+            <td th:text="${locationStat1.deathDiffFromPrevDay}">0</td>
+        </tr>
+    </table>
+</div>
+<footer class="footer mt-auto py-3 bg-dark">
+    <div class="container">
+      <span style="text-align: center; color:white;">corova-virus-tracker-2021-2022 @all right reserved</span>
+    </div>
+  </footer> 
+</body>
+
+</html>
